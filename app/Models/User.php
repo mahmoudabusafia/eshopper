@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'mobile',
+        'type',
+        'image_path',
         'password',
     ];
 
@@ -41,4 +44,30 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getImageUrlAttribute()
+    {
+        if($this->image_path == null){
+            return asset('assets/admin/assets/media/users/blank.png');
+        }
+        return asset('uploads/' . $this->image_path);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user');
+    }
+
+    public function hasAbility($ability){
+        foreach ($this->roles as $role){
+            if (in_array($ability, $role->abilities)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function pivot(){
+        return $this->hasMany(RoleUser::class, 'user_id');
+    }
 }
