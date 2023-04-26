@@ -20,7 +20,8 @@ class ProductFactory extends Factory
         return [
             'name'=> $this->faker->name,
             'slug' => Str::slug($this->faker->name),
-            'category_id' => rand(1,10),
+            'category_id' => rand(2,10),
+            'user_id' => rand(1,10),
             'status' => 'active',
         ];
     }

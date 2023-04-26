@@ -104,6 +104,9 @@
                 </div>
             @endforeach
         </div>
+        <div class="row px-xl-5 pb-3 justify-content-end">
+            <a href="{{ route('shop') }}" class="bg-secondary" style="font-size: 30px;">See All Products <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+        </div>
     </div>
     <!-- Products End -->
 
@@ -140,7 +143,7 @@
         <div class="row px-xl-5 pb-3">
             @foreach($products as $product)
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="card product-item border-0 mb-4">
+                <div class="card product-item border-0 mb-">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <img class="img-fluid w-100" src="{{ $product->image_url }}" alt="">
                     </div>
@@ -156,12 +159,16 @@
                             @csrf
                             @method('post')
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="quantity" value="1">
                         <button type="submit" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
                         </form>
                     </div>
                 </div>
             </div>
             @endforeach
+        </div>
+        <div class="row px-xl-5 pb-3 justify-content-end">
+            <a href="{{ route('shop') }}" class="bg-secondary" style="font-size: 30px;">See All Products <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
         </div>
     </div>
     <!-- Products End -->

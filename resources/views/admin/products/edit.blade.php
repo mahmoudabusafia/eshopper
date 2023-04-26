@@ -93,6 +93,79 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    {{-- {{ dd($product->variants) }}  --}}
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-lg-3">{{ __('Product Features') }}</label>
+                                        <div class="form-group col ">
+{{--                                            <div class="form-group row ">--}}
+{{--                                                <label class="col-form-label col-lg-1">{{ __('Sizes') }}</label>--}}
+{{--                                                <div class="col-8 col-form-label">--}}
+{{--                                                    <div class="form-group">--}}
+{{--                                                        @foreach($product->variants as $var)--}}
+{{--                                                        @if($var->type == 'size')--}}
+{{--                                                        <label class="checkbox">--}}
+{{--                                                            <input type="checkbox" name="variants[sizes][]" value="{{$var->value}}"  checked />--}}
+{{--                                                            <span></span>--}}
+{{--                                                            {{ $var->value }}--}}
+{{--                                                        </label>--}}
+{{--                                                        @endif--}}
+{{--                                                        @endforeach--}}
+{{--                                                        <label class="checkbox">--}}
+{{--                                                            <input type="checkbox" name="variants[sizes][]" value="s" />--}}
+{{--                                                            <span></span>--}}
+{{--                                                            s--}}
+{{--                                                        </label>--}}
+{{--                                                        <label class="checkbox">--}}
+{{--                                                            <input type="checkbox" name="variants[sizes][]" value="m" />--}}
+{{--                                                            <span></span>--}}
+{{--                                                            m--}}
+{{--                                                        </label>--}}
+{{--                                                        <label class="checkbox">--}}
+{{--                                                            <input type="checkbox" name="variants[sizes][]" value="l" />--}}
+{{--                                                            <span></span>--}}
+{{--                                                            l--}}
+{{--                                                        </label>--}}
+{{--                                                        <label class="checkbox">--}}
+{{--                                                            <input type="checkbox" name="variants[sizes][]" value="xl"/>--}}
+{{--                                                            <span></span>--}}
+{{--                                                            xl--}}
+{{--                                                        </label>--}}
+{{--                                                        <label class="checkbox">--}}
+{{--                                                            <input type="checkbox" name="variants[sizes][]" value="xxl"/>--}}
+{{--                                                            <span></span>--}}
+{{--                                                            xxl--}}
+{{--                                                        </label>--}}
+
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+                                            <div class="form-group row ">
+                                                <label class="col-form-label col-lg-2">{{ __('Variants') }}</label>
+                                                <div class="col-8 col-form-label">
+                                                    <div class="form-group">
+{{--                                                        <input type="text" name="type" id="type" placeholder="type">--}}
+                                                        <select name="select" id="select">
+                                                            <option value="size">size</option>
+                                                            <option value="color">color</option>
+                                                        </select>
+                                                        <input type="text" name="value" id="value" placeholder="value">
+                                                        <button id="add-button">Add</button>
+                                                    </div>
+                                                    <div class="form-group" id="output">
+                                                        @foreach($product->variants as $var)
+                                                            <div class="form-group row delete">
+                                                                <i class="ki ki-close" style="color: red" id="close"></i>&nbsp;&nbsp;
+                                                                <label>Type:&nbsp;&nbsp; {{ $var->type }} &nbsp; &nbsp; &nbsp;</label>
+                                                                <label>Value:&nbsp;&nbsp;&nbsp;{{ $var->value }}</label>
+                                                                <input type="hidden" name="info-del" data-prod_id="{{$product->id}}" data-type="{{ $var->type }}" data-value="{{ $var->value }}" data-var_id="{{ $var->id }}">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     <div class="form-group row ">
                                         <label class="col-form-label col-lg-3">{{ __('Description') }}</label>
                                         <div class="col-lg-6">
@@ -149,6 +222,159 @@
             </div><!-- /.container-fluid -->
         </section>
     </div>
+
+
+    <script>
+        // Get references to the input field, add button, and output div
+        // const type = document.getElementById('type');
+        const value = document.getElementById('value');
+        const select = document.getElementById('select');
+        const addButton = document.getElementById('add-button');
+        const outputDiv = document.getElementById('output');
+        const close = document.getElementById('close');
+        const delDiv = document.querySelectorAll('.delete');
+        const closes = document.querySelectorAll('#close');
+
+
+        delDiv.forEach( div => {
+            div.children[0].addEventListener('click', (event) => {
+                if (event.target.id === 'close') {
+                    // Do something when the icon is clicked
+                    console.log('Icon clicked!');
+
+                let prod_id = div.children[3].dataset.prod_id;
+                let var_id = div.children[3].dataset.var_id;
+                let prod_type = div.children[3].dataset.type;
+                let prod_value = div.children[3].dataset.value;
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '{{ route('deleteVariant') }}',
+                    dataType : 'json',
+                    type: 'POST',
+                    data: {
+                        prod_id: prod_id,
+                        var_id: var_id,
+                        prod_type: prod_type,
+                        prod_value: prod_value,
+                    },
+                    success:function(response) {
+                        toastr.success('the variant of product was deleted!', 'Variant Deleted!');
+                        console.log(response);
+                    }
+                });
+                console.log(prod_id,prod_type,prod_value)
+                div.remove();
+                }
+            });
+        });
+
+        // Add a click event listener to the add button
+        addButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log(value.value,select.value);
+
+            if(value.value !== ''){
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{ route('addVariant') }}',
+                dataType : 'json',
+                type: 'POST',
+                data: {
+                    prod_id: {{ $product->id }},
+                    prod_type: select.value,
+                    prod_value: value.value,
+                },
+                success:function(response) {
+                    console.log(response.id)
+                    // Get the parent element
+                    let parentDiv = document.createElement('div');
+                    parentDiv.classList.add('form-group', 'row', 'delete');
+
+// Create the icon element
+                    let icon = document.createElement('i');
+                    icon.classList.add('ki', 'ki-close');
+                    icon.style.color = 'red';
+                    icon.id = 'close';
+                    parentDiv.appendChild(icon);
+
+// Create the first label element
+                    let typeLabel = document.createElement('label');
+                    typeLabel.innerHTML = 'Type:&nbsp;&nbsp;' + response.type + '&nbsp;&nbsp;&nbsp;';
+                    parentDiv.appendChild(typeLabel);
+
+// Create the second label element
+                    let valueLabel = document.createElement('label');
+                    valueLabel.innerHTML = 'Value:&nbsp;&nbsp;&nbsp;' + response.value;
+                    parentDiv.appendChild(valueLabel);
+
+// Create the hidden input element
+                    let hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'info-del';
+                    hiddenInput.dataset.prod_id = response.product_id;
+                    hiddenInput.dataset.type = response.type;
+                    hiddenInput.dataset.value = response.value;
+                    hiddenInput.dataset.var_id = response.id;
+                    parentDiv.appendChild(hiddenInput);
+
+                    // Append the new paragraph element to the output div
+                    outputDiv.appendChild(parentDiv);
+                    // Clear the input field
+                    value.value = '';
+                }
+            });
+
+            }else {
+                toastr.error('the value input cannot be empty!', 'Add Value Error!');
+            }
+
+
+        });
+
+        // addButton.addEventListener('click', function(e) {
+        //     e.preventDefault();
+        //     // Get the value of the input field
+        //     // const typeValue = type.value;
+        //     const valueValue = value.value;
+        //     const selectValue = select.value;
+        //
+        //     const label = document.createElement('label');
+        //     label.setAttribute('class', 'checkbox');
+        //     label.setAttribute('id', 'fet');
+        //
+        //     const input = document.createElement('input');
+        //     input.setAttribute('type', 'checkbox');
+        //     input.setAttribute('name', 'variants[' + selectValue + '][]');
+        //     input.setAttribute('value', valueValue);
+        //     input.setAttribute('checked', 'checked');
+        //
+        //     const span = document.createElement('span');
+        //
+        //     const text = document.createTextNode(valueValue);
+        //
+        //     label.appendChild(input);
+        //     label.appendChild(span);
+        //     label.appendChild(text);
+        //
+        //     // Append the new paragraph element to the output div
+        //     if(valueValue !== ''){
+        //         outputDiv.appendChild(label);
+        //         // Clear the input field
+        //         value.value = '';
+        //     }else {
+        //         // alert('the type and value input cannot be empty!')
+        //         toastr.error('the value input cannot be empty!', 'Add Value Error!');
+        //     }
+        // });
+
+
+
+    </script>
 
 @endsection
 

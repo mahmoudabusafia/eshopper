@@ -7,7 +7,8 @@
 		<title>Dashboard</title>
 		<meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<link rel="canonical" href="https://keenthemes.com/metronic" />
+
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 		<!--begin::Fonts-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -16,6 +17,7 @@
 		<!--end::Page Vendors Styles-->
 		<!--begin::Page Vendors Styles(used by this page)-->
 		<link href="{{ asset('assets/admin/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+{{--		<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />--}}
 		<!--end::Page Vendors Styles-->
 		<!--begin::Global Theme Styles(used by all pages)-->
 		<link href="{{ asset('assets/admin/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
@@ -29,9 +31,10 @@
 		<link href="{{ asset('assets/admin/assets/css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Layout Themes-->
 		<link rel="shortcut icon" href="{{ asset('assets/admin/assets/media/logos/favicon.ico') }}" />
+        @stack('style')
         <!--begin::Toastr js-->
 {{--        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet" />--}}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--}}
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <!--end::Toastr js-->
@@ -912,8 +915,8 @@
 						<div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
 							<!--begin::Copyright-->
 							<div class="text-dark order-2 order-md-1">
-								<span class="text-muted font-weight-bold mr-2">2021©</span>
-								<a href="#" target="_blank" class="text-dark-75 text-hover-primary">Keenthemes</a>
+								<span class="text-muted font-weight-bold mr-2">{{ date('Y') }}©</span>
+								<a target="_blank" class="text-dark-75 text-hover-primary">EShopper</a>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Nav-->
@@ -956,7 +959,7 @@
 						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">James Jones</a>
 						<div class="text-muted mt-1">Application Developer</div>
 						<div class="navi mt-2">
-							<a href="#" class="navi-item">
+							<a class="navi-item">
 								<span class="navi-link p-0 pb-2">
 									<span class="navi-icon mr-1">
 										<span class="svg-icon svg-icon-lg svg-icon-primary">
@@ -974,7 +977,7 @@
 									<span class="navi-text text-muted text-hover-primary">jm@softplus.com</span>
 								</span>
 							</a>
-							<a href="{{ route('logout') }}" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
+							<a href="{{ route('admin.log') }}" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
 						</div>
 					</div>
 				</div>
@@ -1240,13 +1243,15 @@
 		<!--end::Page Scripts-->
 		<!--begin::Page Vendors(used by this page)-->
 		<script src="{{ asset('assets/admin/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+{{--		<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>--}}
 		<!--end::Page Vendors-->
 		<!--begin::Page Scripts(used by this page)-->
-		<script src="{{ asset('assets/admin/assets/js/pages/crud/datatables/basic/scrollable.js') }}"></script>
+{{--		<script src="{{ asset('assets/admin/assets/js/pages/crud/datatables/basic/scrollable.js') }}"></script>--}}
 		<!--end::Page Scripts-->
         <!--begin::Page Scripts(used by this page)-->
         <script src="{{ asset('assets/admin/assets/js/pages/crud/file-upload/image-input.js') }}"></script>
         <!--end::Page Scripts-->
+{{--        <script src="{{ asset('assets/admin/assets/js/pages/crud/ktdatatable/base/data-ajax.js') }}"></script>--}}
 
         <script>
             @if(Session::has('success'))

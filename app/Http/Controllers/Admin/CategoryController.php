@@ -149,7 +149,7 @@ class CategoryController extends Controller
             'image' => 'nullable|image|max:512000|dimensions:min_width=100,min_height=100',
         ]);
 
-        Image::updateImage($category, $category,'categories');
+        Image::updateImage($request, $category,'categories');
 
         $category->update($request->all());
 

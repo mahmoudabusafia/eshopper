@@ -33,7 +33,6 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
             'product_id' => ['required', 'exists:products,id'],
             'quantity' => ['int', 'min:1', function($attr, $value, $fail){
@@ -44,8 +43,6 @@ class CartController extends Controller
                 }
             }]
         ]);
-
-
 
         $cart = $this->cart->add($request->post('product_id'), $request->post('quantity', 1));
 
@@ -60,5 +57,18 @@ class CartController extends Controller
     {
         Cart::findOrfail($id)->delete();
         return redirect()->back()->with('success', __('Item deleted from cart!'));
+    }
+
+    public function qty(Request $request)
+    {
+        $id = $request->input('id');
+        $qty = $request->input('qty');
+
+        $item = Cart::where('id', $id)->first();
+        $item->update([
+            'quantity' => $qty
+        ]);
+        $message = "the QTY for the Product with has id = $id was updated!";
+        return $id;
     }
 }

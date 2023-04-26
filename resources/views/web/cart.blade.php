@@ -46,15 +46,16 @@
                     <td>{{ $item->product->name }}</td>
                     <td class="align-middle">${{ $item->product->price }}</td>
                     <td class="align-middle">
-                        <div class="input-group quantity mx-auto" style="width: 100px;">
+                        <div class="input-group mx-auto qty" style="width: 100px;">
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-primary btn-minus" onclick="minus({{$item->id}})">
+                                <button class="btn btn-sm btn-primary decrement-btn">
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control form-control-sm bg-secondary text-center" value="{{ $item->quantity }}">
+                            <input type="text" class="form-control form-control-sm bg-secondary text-center qty-input" value="{{ $item->quantity }}">
+                            <input type="hidden" class="item-id" value="{{ $item->id }}">
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-primary btn-plus" onclick="plus({{$item->id}})">
+                                <button class="btn btn-sm btn-primary increment-btn">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
@@ -111,4 +112,73 @@
 <!-- Cart End -->
 
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function (){
+            $('.increment-btn').click(function (e){
+                e.preventDefault();
+                let id = $(this).parents('.qty').find('.item-id').val();
+
+                let inc_value = $(this).parents('.qty').find('.qty-input').val();
+                let value = parseInt(inc_value, 10);
+                value = isNaN(value) ? 1 : value;
+                if(value < 10)
+                {
+                    value++;
+                    $(this).parents('.qty').find('.qty-input').val(value);
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: '{{ route('change.qty') }}',
+                        dataType : 'json',
+                        type: 'POST',
+                        data: {
+                            id: id,
+                            qty: value,
+                        },
+                        success:function(response) {
+                            console.log(response);
+                        }
+                    });
+                    location.reload();
+                }
+            });
+
+            $('.decrement-btn').click(function (e){
+                e.preventDefault();
+
+                let id = $(this).parents('.qty').find('.item-id').val();
+                let dec_value = $(this).parents('.qty').find('.qty-input').val();
+                let value = parseInt(dec_value, 10);
+                value = isNaN(value) ? 1 : value;
+                if(value > 1)
+                {
+                    value--;
+                    $(this).parents('.qty').find('.qty-input').val(value);
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: '{{ route('change.qty') }}',
+                        dataType : 'json',
+                        type: 'POST',
+                        data: {
+                            id: id,
+                            qty: value,
+                        },
+                        success:function(response) {
+                            console.log(response);
+                        }
+                    });
+                    location.reload();
+                }
+
+            });
+        });
+    </script>
+@endpush
 

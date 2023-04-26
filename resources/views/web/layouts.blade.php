@@ -84,23 +84,25 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 display-flex">
-{{--                @if(!Auth::user())--}}
-                    <a href="#" class="btn border bg-primary opacity-5"><span style="color: black">Login</span></a>
-                    <a href="#" class="btn border bg-primary opacity-5"><span style="color: black">Register</span></a>
-{{--                @else--}}
-{{--                    <div class="col-lg-15 d-none d-lg-block">--}}
-{{--                        <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100 collapsed" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">--}}
-{{--                            <img src="{{asset('assets/admin/assets/media/svg/avatars/001-boy.svg')}}" width="50px" />--}}
-{{--                            <h6 class="m-0">{{Auth::user()->name}}</h6>--}}
-{{--                            <i class="fa fa-angle-down text-dark"></i>--}}
-{{--                        </a>--}}
-{{--                        <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">--}}
-{{--                            <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">--}}
-{{--                                <a href="#" class="nav-item nav-link">Profile</a>--}}
-{{--                            </div>--}}
-{{--                        </nav>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
+                @if(Auth::user())
+
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a>
+                            <a class="dropdown-item" href="#">Setting</a>
+                            <hr>
+                            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+                        </div>
+                    </div>
+
+                @else
+                    <a href="{{ route('login') }}" class="btn border bg-primary opacity-5"><span style="color: black"><?php session(['current_url' => URL::current()]); ?>Login</span></a>
+                    <a href="{{ route('register') }}" class="btn border bg-primary opacity-5"><span style="color: black">Register</span></a>
+                @endif
             </div>
         </div>
     </div>
@@ -117,17 +119,17 @@
                 <nav class="collapse @yield('show') position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                         @foreach($categories as $category)
-                            @if($category->name === 'Dresses')
+                            @if($category->name === 'dresses')
                                 <div class="nav-item dropdown">
-                                    <a href="#" class="nav-link" data-toggle="dropdown">{{ $category->name }} <i class="fa fa-angle-down float-right mt-1"></i></a>
+                                    <a href="#" class="nav-link" data-toggle="dropdown">{{ $category->desc }} <i class="fa fa-angle-down float-right mt-1"></i></a>
                                     <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
                                         @foreach($category->children as $sub)
-                                        <a href="#" class="dropdown-item">{{$sub->name}}</a>
+                                        <a href="{{ route('shop.page', $sub->name) }}" class="dropdown-item">{{$sub->desc}}</a>
                                         @endforeach
                                     </div>
                                 </div>
                             @else
-                            <a href="#" class="nav-item nav-link">{{ $category->name }}</a>
+                            <a href="{{ route('shop.page', $category->name) }}" class="nav-item nav-link">{{ $category->desc }}</a>
                             @endif
                         @endforeach
                     </div>
@@ -161,7 +163,7 @@
                             </a>
                             <a href="{{ route('cart') }}" class="btn border">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge">{{ $cart->all()->count()}}</span>
+                                <span class="badge">{{ $cart->count()}}</span>
                             </a>
                         </div>
                     </div>

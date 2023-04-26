@@ -38,8 +38,8 @@
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form action="#" method="post">
-
+                                    <form action="{{ route('register') }}" method="post">
+                                        @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <a class="text-decoration-none">
                                                 <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
@@ -49,21 +49,37 @@
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register on the site <span style="background-color: #D17D97">now!</span></h5>
 
                                         <div class="form-outline mb-3">
-                                            <input type="text" class="form-control" placeholder="User name"/>
+                                            <input type="text" class="form-control @error('name')  is-invalid @enderror" name="name" placeholder="User name"/>
+                                            @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="form-outline mb-3">
-                                            <input type="email" class="form-control" placeholder="Email address"/>
+                                            <input type="email" class="form-control @error('email')  is-invalid @enderror" name="email" placeholder="Email address"/>
+                                            @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="form-outline mb-3">
-                                            <input type="password" class="form-control" placeholder="Password"/>
+                                            <input type="password" class="form-control @error('password')  is-invalid @enderror" name="password" placeholder="Password"/>
+                                            @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-outline mb-3">
+                                            <input type="password" class="form-control @error('password_confirmation')  is-invalid @enderror" name="password_confirmation" placeholder="Confirm Password"/>
+                                            @error('password_confirmation')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="pt-1 mb-3">
                                             <button type="submit" class="btn btn-dark btn-lg btn-block" type="button">Register</button>
                                         </div>
-                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Do You have an account? <a href="#!" style="color: #393f81;">Login</a></p>
+                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Do You have an account? <a href="{{ route('login') }}" style="color: #393f81;">Login</a></p>
                                     </form>
 
                                 </div>

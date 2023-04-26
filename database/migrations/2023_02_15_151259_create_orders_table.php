@@ -21,8 +21,8 @@ return new class extends Migration
             $table->unsignedFloat('discount')->default(0);
             $table->unsignedFloat('tax')->default(0);
             $table->unsignedFloat('total')->default(0);
-            $table->enum('status', ['pending', 'cancelled', 'processing', 'shipped', 'completed']);
-            $table->enum('payment_status', ['unpaid', 'paid', 'refund']);
+            $table->enum('status', ['pending', 'completed', 'cancelled']);
+            $table->enum('payment_status', ['paid', 'refund']);
             $table->string('billing_name');
             $table->string('billing_email');
             $table->string('billing_phone');

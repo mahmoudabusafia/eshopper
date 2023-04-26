@@ -28,13 +28,13 @@
         </div>
         <div class="card-body">
             <!--begin: Datatable-->
-            <table class="table table-separate table-head-custom table-checkable" id="table_id">
+            <table class="table table-separate table-responsive table-head-custom table-checkable" id="table_id">
                 <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Slug</th>
-                    <th>Seller</th>
+                    <th>Owner</th>
                     <th>Category</th>
                     <th>Image</th>
                     <th>Quantity</th>
@@ -56,7 +56,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="productAddModal" tabindex="-1" role="dialog" aria-labelledby="productAddModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <form class="form" action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -140,6 +140,86 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="col-form-label col-lg-4">{{ __('Product Features') }}</label>
+                            <div class="form-group col ">
+                                <div class="form-group row ">
+                                    <label class="col-form-label col-lg-2">{{ __('Sizes') }}</label>
+                                    <div class="col-10 col-form-label">
+                                        <div class="checkbox-inline">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[sizes][]" value="xs"/>
+                                                <span></span>
+                                                xs
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[sizes][]" value="s"/>
+                                                <span></span>
+                                                s
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[sizes][]" value="m"/>
+                                                <span></span>
+                                                m
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[sizes][]" value="l"/>
+                                                <span></span>
+                                                l
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[sizes][]" value="xl"/>
+                                                <span></span>
+                                                xl
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[sizes][]" value="xxl"/>
+                                                <span></span>
+                                                xxl
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row ">
+                                    <label class="col-form-label col-lg-2">{{ __('Colors') }}</label>
+                                    <div class="col-10 col-form-label">
+                                        <div class="checkbox-inline">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[colors][]" value="white"/>
+                                                <span></span>
+                                                white
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[colors][]" value="black"/>
+                                                <span></span>
+                                                black
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[colors][]" value="red"/>
+                                                <span></span>
+                                                red
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[colors][]" value="blue"/>
+                                                <span></span>
+                                                blue
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[colors][]" value="green"/>
+                                                <span></span>
+                                                green
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="variants[colors][]" value="yellow"/>
+                                                <span></span>
+                                                yellow
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                     </div>
                     <div class="form-group row ">
                         <label class="col-form-label col-lg-4">{{ __('Description') }}</label>

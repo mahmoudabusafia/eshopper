@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +12,7 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $with = ['variants'];
     protected $fillable = [
         'name', 'slug', 'user_id', 'category_id', 'image_path', 'price', 'quantity', 'status'
     ];
@@ -51,6 +53,11 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id')
             ->withDefault();
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariants::class, 'product_id');
     }
 
 }

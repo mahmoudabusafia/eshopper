@@ -6,7 +6,7 @@
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
             <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
             <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0"><a href="{{ route('index') }}">Home</a></p>
                 <p class="m-0 px-2">-</p>
                 <p class="m-0">Checkout</p>
             </div>
@@ -24,32 +24,36 @@
                     <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" name="Billing[fname]" placeholder="John">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" name="Billing[lname]" placeholder="Doe">
+                            <label>Full Name</label>
+                            <input class="form-control @error('billing_name')  is-invalid @enderror" type="text" name="billing_name" placeholder="John Doe" value="{{ $user->name }}">
+                            @error('billing_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
-                            <input class="form-control" type="email" name="Billing[email]" placeholder="example@email.com">
+                            <input class="form-control @error('email')  is-invalid @enderror" type="email" name="billing_email" placeholder="example@email.com" value="{{ $user->email }}">
+                            @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile No</label>
-                            <input class="form-control" type="tel" name="Billing[mobile]" placeholder="+123 456 789">
+                            <input class="form-control @error('phone')  is-invalid @enderror" type="tel" name="billing_phone" placeholder="+123 456 789" value="{{ $user->mobile }}">
+                            @error('phone')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Address Line 1</label>
-                            <input class="form-control" type="text" name="Billing[address1]" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" name="Billing[address2]" placeholder="123 Street">
+                            <label>Address</label>
+                            <input class="form-control @error('address')  is-invalid @enderror" type="text" name="billing_address" placeholder="123 Street" value="{{ $user->address }}">
+                            @error('address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Country</label>
-                            <select class="custom-select" name="Billing[country]">
+                            <select class="custom-select" name="billing_country">
                                 <option selected>United States</option>
                                 <option>Afghanistan</option>
                                 <option>Albania</option>
@@ -58,13 +62,18 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
-                            <input class="form-control" type="text" name="Billing[city]" placeholder="New York">
+                            <input class="form-control @error('city')  is-invalid @enderror" type="text" name="billing_city" placeholder="New York" value="{{ $user->city }}">
+                            @error('city')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-12 form-group">
+                            @if(!\Illuminate\Support\Facades\Auth::user())
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="newaccount">
                                 <label class="custom-control-label" for="newaccount">Create an account</label>
                             </div>
+                            @endif
                         </div>
                         <div class="col-md-12 form-group">
                             <div class="custom-control custom-checkbox">
@@ -78,28 +87,20 @@
                     <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" name="Shipping[fname]" placeholder="John">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" name="Shipping[lname]" placeholder="Doe">
+                            <label>Full Name</label>
+                            <input class="form-control" type="text" name="shipping_name" placeholder="John Doe">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
-                            <input class="form-control" type="text" name="Shipping[email]" placeholder="example@email.com">
+                            <input class="form-control" type="text" name="shipping_email" placeholder="example@email.com">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile No</label>
-                            <input class="form-control" type="text" name="Shipping[mobile]" placeholder="+123 456 789">
+                            <input class="form-control" type="text" name="phone" placeholder="+123 456 789">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Address Line 1</label>
-                            <input class="form-control" type="text" name="Shipping[address1]" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" name="Shipping[address2]" placeholder="123 Street">
+                            <label>Address</label>
+                            <input class="form-control" type="text" name="shipping_address" placeholder="123 Street">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Country</label>
@@ -112,7 +113,7 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
-                            <input class="form-control" type="text" name="Shipping[city]" placeholder="New York">
+                            <input class="form-control" type="text" name="shipping_city" placeholder="New York">
                         </div>
                     </div>
                 </div>
@@ -123,11 +124,21 @@
                         <h4 class="font-weight-semi-bold m-0">Order Total</h4>
                     </div>
                     <div class="card-body">
+                        <div class="d-flex justify-content-between">
                         <h5 class="font-weight-medium mb-3">Products</h5>
+                            <div style="display:flex; justify-content: space-between">
+                                <h5 class="font-weight-medium mb-3 mr-5">QTY</h5>
+                                <h5 class="font-weight-medium mb-3 ml-5">Price</h5>
+                            </div>
+                        </div>
+                        <hr class="mt-0">
                         @foreach($cart->all() as $item)
                         <div class="d-flex justify-content-between">
-                            <p>{{ $item->product->name }}</p>
-                            <p>${{ $item->product->price }}</p>
+                            <p class="font-weight-medium mb-3">{{ $item->product->name }}</p>
+                            <div style="display:flex;">
+                                <p class="font-weight-medium mb-3 mr-5">${{ $item->product->price }}</p>
+                                <p class="font-weight-medium mb-3 ml-5">{{ $item->quantity }}</p>
+                            </div>
                         </div>
                         @endforeach
                         <hr class="mt-0">

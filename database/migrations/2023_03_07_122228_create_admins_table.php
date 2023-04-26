@@ -17,14 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('mobile')->nullable()->unique();
-            $table->timestamp('mobile_verified_at')->nullable();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->enum('type', ['vendor', 'admin']);
+            $table->enum('type', ['vendor', 'admin'])->default('vendor');
+            $table->enum('status', ['active', 'inactive']);
             $table->string('password');
             $table->string('image_path')->nullable();
-            $table->text('two_factor_secret')->nullable();
-            $table->text('two_factor_recovery_codes')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -38,7 +38,7 @@
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form action="#" method="post">
+                                    <form action="{{ route('login') }}" method="post">
                                         @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <a class="text-decoration-none">
@@ -48,13 +48,18 @@
 
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
 
-                                        <div class="form-outline mb-4">
-                                            <input type="email" name="email" class="form-control" placeholder="Email address">
-
+                                        <div class="form-outline mb-3">
+                                            <input type="email" class="form-control @error('email')  is-invalid @enderror" name="email" placeholder="Email address"/>
+                                            @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
-                                        <div class="form-outline mb-4">
-                                            <input type="password" name="password" class="form-control" placeholder="Password"/>
+                                        <div class="form-outline mb-3">
+                                            <input type="password" class="form-control @error('password')  is-invalid @enderror" name="password" placeholder="Password"/>
+                                            @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="pt-1 mb-4">
@@ -62,7 +67,7 @@
                                         </div>
 
                                         <a class="small text-muted" href="#!">Forgot password?</a>
-                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
+                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{{ route('register') }}"
                                                                                                                   style="color: #393f81;">Register here</a></p>
                                     </form>
 

@@ -15,16 +15,16 @@
     </div>
     <!-- Page Header End -->
 
-    <form action="{{ route('shop') }}" method="get">
+{{--    <form action="{{ route('shop') }}" method="get">--}}
     <!-- Shop Start -->
     <div class="container-fluid pt-5 do-filter">
         <div class="row px-xl-5 justify-content-center">
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-12">
                 <!-- Price Start -->
-                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3" style="margin-left: 215px;">
-                        <button class="btn border bg-primary opacity-5"><span style="color: black"><i class="fa fa-search"></i> Filter</span></button>
-                    </div>
+{{--                    <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3" style="margin-left: 215px;">--}}
+{{--                        <button class="btn border bg-primary opacity-5"><span style="color: black"><i class="fa fa-search"></i> Filter</span></button>--}}
+{{--                    </div>--}}
                 <div class="mb-5">
                     <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
                     <div class="form-group row">
@@ -87,7 +87,6 @@
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <form action="">
                                 <div class="input-group">
                                     <input type="text" id="search-input" class="form-control" name="search" placeholder="Search by name">
                                     <div class="input-group-append">
@@ -96,18 +95,6 @@
                                         </button>
                                     </div>
                                 </div>
-                            </form>
-                            <div class="dropdown ml-4">
-                                <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                    Sort by
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row pb-3 list" style="width: 100%;" id="list">
@@ -148,7 +135,7 @@
             <!-- Shop Product End -->
         </div>
     </div>
-    </form>
+{{--    </form>--}}
 
     @push('style')
         <style>
@@ -174,15 +161,15 @@
             filterProduct(price.value)
         })
 
-{{--        color.addEventListener('change', function (){--}}
-{{--            colorOutput= color.value;--}}
-{{--            console.log(colorOutput);--}}
-{{--        })--}}
-
-{{--        size.addEventListener('change', function (){--}}
-{{--            sizerOutput= size.value;--}}
-{{--            console.log(sizerOutput);--}}
-{{--        })--}}
+        // color.addEventListener('change', function (){
+        //     colorOutput= color.value;
+        //     console.log(colorOutput);
+        // })
+        //
+        // size.addEventListener('change', function (){
+        //     sizerOutput= size.value;
+        //     console.log(sizerOutput);
+        // })
 
         let search = document.getElementById("search-input");
         search.addEventListener("keyup", () => {

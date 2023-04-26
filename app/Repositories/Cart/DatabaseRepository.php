@@ -14,9 +14,9 @@ class DatabaseRepository implements CartRepository
     /**
      *
      * @var \Illuminate\Support\Collection
-     * 
+     *
      */
-    
+
     protected $items;
 
     public function __construct()
@@ -40,7 +40,7 @@ class DatabaseRepository implements CartRepository
         $cart = Cart::updateOrcreate([
             'cookie_id' => $this->getCookieId(),
             'product_id' => ($item instanceof Product)? $item->id : $item,], [
-            'user_id' => Auth::id(), 
+            'user_id' => Auth::id(),
             'quantity' => DB::raw('quantity + ' . $qty),
         ]);
 
@@ -71,7 +71,7 @@ class DatabaseRepository implements CartRepository
     {
         $items = $this->all();
         return $items->sum(function($item){
-            return $item->quantity * $item->product->price;     
+            return $item->quantity * $item->product->price;
         });
     }
 
@@ -79,5 +79,11 @@ class DatabaseRepository implements CartRepository
     {
         $items = $this->all();
         return $items->sum('quantity');
+    }
+
+    public function count()
+    {
+        $items = $this->all();
+        return $items->count();
     }
 }

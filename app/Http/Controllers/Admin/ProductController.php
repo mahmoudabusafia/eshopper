@@ -6,7 +6,9 @@ use App\Helpers\Image;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariants;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class ProductController extends Controller
@@ -30,10 +32,10 @@ class ProductController extends Controller
                     return $image;
                 })
                 ->addColumn('seller', function ($row) {
-                    return $row->user_id ?? 'No User';
+                    return $row->user->name ?? 'No User';
                 })
                 ->addColumn('category', function ($row) {
-                    return $row->category_id ?? 'No category';
+                    return $row->category->name ?? 'No category';
                 })
                 ->addColumn('description', function ($row) {
                     return $row->desc ?? 'No Description';
@@ -81,6 +83,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
+
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|exists:categories,id',
@@ -91,7 +95,19 @@ class ProductController extends Controller
             'image' => 'nullable|image|max:512000|dimensions:min_width=100,min_height=100',
         ]);
         Image::addImage($request, 'products');
+        $request->merge([
+            'user_id' => Auth::guard('admin')->user()->id,
+        ]);
         $product = Product::create($request->all());
+
+        foreach($request->variants as  $data ) {
+            foreach ($data as $item)
+                $product->variants()->create([
+                    'type' => 'color',
+                    'value' => $item,
+                ]);
+        }
+
 
         return redirect()->route('products.index')->with('success', 'Product created!');
 
@@ -117,7 +133,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $categories = Category::all();
-        $product = Product::findOrfail($id);
+        $product = Product::with('variants')->findOrfail($id);
         return view('admin.products.edit', [
             'categories' => $categories,
             'product' => $product
@@ -133,6 +149,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        dd($request->all());
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|exists:categories,id',
@@ -163,5 +180,22 @@ class ProductController extends Controller
 
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted!');
+    }
+
+    public function addVariant(Request $request)
+    {
+        $product = Product::where('id', $request->prod_id)->first();
+        $variant = $product->variants()->create([
+            'type' => $request->prod_type,
+            'value' => $request->prod_value
+        ]);
+        return $variant;;
+    }
+
+    public function deleteVariant(Request $request)
+    {
+        $variant = ProductVariants::where('id', $request->var_id)->first();
+        $variant->delete();
+        return $variant;
     }
 }

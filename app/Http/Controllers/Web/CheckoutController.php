@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -36,7 +38,6 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'billing_name' => ['required', 'string'],
             'billing_phone' => 'required',
@@ -65,6 +66,8 @@ class CheckoutController extends Controller
             }
 
             DB::table('order_items')->insert($items);
+
+            $this->cart->clear();
 
             DB::commit();
 

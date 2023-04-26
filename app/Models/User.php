@@ -70,4 +70,9 @@ class User extends Authenticatable
     public function pivot(){
         return $this->hasMany(RoleUser::class, 'user_id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'user_id', 'id');
+    }
 }

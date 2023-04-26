@@ -205,11 +205,11 @@ var KTDatatableJsonRemoteDemo = function() {
         });
 
         $('#kt_datatable_search_status').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Status');
+            datatable.search($(this).val().toLowerCase(), 'status');
         });
 
         $('#kt_datatable_search_type').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Type');
+            datatable.search($(this).val().toLowerCase(), 'payment_status');
         });
 
         $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();

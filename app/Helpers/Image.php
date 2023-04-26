@@ -20,7 +20,7 @@ class Image
     public static function updateImage($request, $object , $folder= ''){
         if($request->hasFile('image')) {
             if($object->image_path !== null){
-                unlink(public_path('uploads\\'.$folder.'\\').$object->image_path);
+                unlink(public_path('uploads\\').$object->image_path);
             }
 
             $file = $request->file('image');

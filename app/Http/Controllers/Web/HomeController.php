@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -10,19 +11,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::limit(10)->get();
+        $products = Product::limit(12)->get();
         return view('web.index', [
             'products' => $products,
         ]);
     }
 
-//    public function shop()
-//    {
-//        $products = Product::paginate(9);
-//        return view('web.shop', [
-//            'products' => $products,
-//        ]);
-//    }
     public function shop(Request $request)
     {
         $price = $request->input('price');
@@ -60,11 +54,6 @@ class HomeController extends Controller
         ]);
     }
 
-    public function filter()
-    {
-        return Product::all();
-    }
-
     public function contact()
     {
         return view('web.contact');
@@ -74,14 +63,6 @@ class HomeController extends Controller
     {
         return view('web.checkout');
     }
-    public function login()
-    {
-        return view('web.auth.login');
-    }
-    public function register()
-    {
-        return view('web.auth.register');
-    }
 
     public function show($id){
         $product = Product::findOrfail($id);
@@ -90,8 +71,12 @@ class HomeController extends Controller
        ]);
     }
 
-    public function cart()
-    {
-        return view('web.cart');
+    public function page($page){
+        $category = Category::where('name',$page)->first();
+        $products = Product::where('category_id', $category->id)->paginate(9);
+        return view('web.shop-page', [
+            'products' => $products,
+            'category' => $category,
+        ]);
     }
 }
