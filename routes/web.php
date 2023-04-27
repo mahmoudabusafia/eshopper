@@ -95,3 +95,8 @@ Route::get('/orders', function(){
     return Order::all();
 })->name('orders');
 
+Route::get('/orders/{id}', function ($id){
+    $order = Order::findOrfail($id);
+    return $order;
+})->name('viewOrder');
+
