@@ -111,12 +111,8 @@
                         <a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a>
                         <a class="dropdown-item" href="#">Setting</a>
                         <hr>
-                        <a class="dropdown-item">
-                            <form action="{{ route('logout') }}" method="post" >
-                                @csrf
-                                @method('post')
-                                <button type="submit" class="btn btn-sm text-dark p-0">Logout</button>
-                            </form>
+                        <a href="{{ route('logout') }}"  class="dropdown-item btn btn-sm text-dark p-0">
+                            Logout
                         </a>
                     </div>
                 </div>

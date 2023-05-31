@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->job(new LatePendingOrderStatusJob())->everyTwoMinutes();
+        $schedule->job(new LatePendingOrderStatusJob())->hourly();
+//        $schedule->job(new LatePendingOrderStatusJob())->everyTwoMinutes();
     }
 
     /**

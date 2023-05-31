@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\CheckoutController;
+use App\Http\Controllers\Web\OrderController as WebOrder;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -85,15 +86,17 @@ Route::middleware('auth')->group(function (){
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::resource('orders', WebOrder::class);
+
     Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'store']);
 });
 
 
 
-Route::get('/orders', function(){
-    return Order::all();
-})->name('orders');
+//Route::get('/orders', function(){
+//    return Order::all();
+//})->name('orders');
 
 Route::get('/orders/{id}', function ($id){
     $order = Order::findOrfail($id);

@@ -92,6 +92,9 @@
                             {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}
                         </button>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('cart') }}">Favorite</a>
+                            <a class="dropdown-item" href="{{ route('cart') }}">Cart</a>
+                            <a class="dropdown-item" href="{{ route('orders.index') }}">My Orders</a>
                             <a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a>
                             <a class="dropdown-item" href="#">Setting</a>
                             <hr>
